@@ -41,8 +41,19 @@ function submitForm (formData) {
 			$.post('/', formData)
 				.done(function (data) {
 					getOrEmptyFormData("campaign_", '');
-					console.log("Done", data);
-			});
+					alert('The form submission was successful');
+					setTimeout(function () {
+						location.reload();
+					}, 3000);					
+				});
+			})
+				.fail(function (data) {
+					// console.log("Done", data);
+					alert('Sorry, the submission failed. Please contact the site admin');
+					setTimeout(function () {
+						location.reload();
+					}, 3000);					
+				});
 		}
 	}	
 }
