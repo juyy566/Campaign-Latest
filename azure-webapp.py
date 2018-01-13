@@ -24,6 +24,7 @@ def home():
 
 			db = pyodbc.connect(connection_string)
 			db.cursor().execute(query_string)
+			db.commit()
 			resp_dict = { 'success': 'true', 'statusCode': '200' }			
 		except Exception as e:
 			resp_dict = { 'error': str(e), 'statusCode': '400' }
