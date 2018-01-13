@@ -14,7 +14,8 @@ def home():
 		# print(data)
 		resp_dict = {}
 		try:
-			query_string = "INSERT INTO CampaingTracker ( CAMPAIGNNAME, CAMPAIGNDETAILS, CAMPAIGNSTARTDATE, CAMPAIGNENDDATE, CAMPAIGN_ID ) VALUES({},{},{},{},{})".format(data['campaign_name'],data['campaign_details'],data['campaign_start'],data['campaign_end'],data['campaign_uniqueId'])
+			query_string = "INSERT INTO CampaingTracker ( CAMPAIGNNAME, CAMPAIGNDETAILS, CAMPAIGNSTARTDATE, CAMPAIGNENDDATE, CAMPAIGN_ID ) VALUES('{}','{}','{}','{}','{}')".format(data['campaign_name'],data['campaign_details'],data['campaign_start'],data['campaign_end'],data['campaign_uniqueId'])
+			print(query_string)
 		except Exception as e:
 			resp_dict = { 'error': 'Wrong params', 'statusCode': '400' }
 			return jsonify(resp_dict)
