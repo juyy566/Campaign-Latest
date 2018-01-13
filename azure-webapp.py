@@ -12,15 +12,20 @@ def home():
 		# print(request)
 		data = request.form
 		# print(data)
-		query_string = "INSERT INTO CampaingTracker VALUES ({},{},{},{},{})".format(data['campaign_name'],data['campaign_details'],data['campaign_start'],data['campaign_end'],data['campaign_uniqueId'])
+		resp_dict = {}
+		try:
+			query_string = "INSERT INTO CampaingTracker ( CAMPAIGNNAME, CAMPAIGNDETAILS, CAMPAIGNSTARTDATE, CAMPAIGNENDDATE, CAMPAIGN_ID ) Values VALUES({},{},{},{},{})".format(data['campaign_name'],data['campaign_details'],data['campaign_start'],data['campaign_end'],data['campaign_uniqueId'])
+		except Exception as e:
+			resp_dict = { 'error': 'Wrong params', 'statusCode': '400' }
+			return jsonify(resp_dict)
 		# Logic to store the data in the database
 		try:
 
 			db = pyodbc.connect(connection_string)
 			db.cursor().execute(query_string)
-			resp_dict = { 'success': 'true' }			
+			resp_dict = { 'success': 'true', 'statusCode': '200' }			
 		except Exception as e:
-			resp_dict = { 'error': str(e) }
+			resp_dict = { 'error': str(e), 'statusCode': '400' }
 
 		return jsonify(resp_dict)
 
