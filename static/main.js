@@ -47,6 +47,7 @@ function submitForm (formData) {
 					}, 3000);					
 				});
 			})
+
 				.fail(function (data) {
 					// console.log("Done", data);
 					alert('Sorry, the submission failed. Please contact the site admin');
@@ -55,8 +56,7 @@ function submitForm (formData) {
 					}, 3000);					
 				});
 		}
-	}	
-}
+	}
 
 function ID () {
   // Math.random should be unique because of its seeding algorithm.
