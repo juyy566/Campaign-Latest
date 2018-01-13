@@ -77,7 +77,7 @@ function validateDate () {
 	const end_date = new Date($("#campaign_end").val());
 	const today = new Date();
 
-	if (today.toDateString() <== start_date.toDateString()) {
+	if (today.toDateString() <= start_date.toDateString()) {
 		alert("Campaign's start date can't be today or in the future!");
 		return false;
 	}
