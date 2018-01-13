@@ -9,11 +9,13 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def home():
 	if request.method == 'POST':
-		print(request.form)
+		# print(request)
 		data = request.form
-		query_string = "INSERT TO CampaingTracker(CampaignName,CampaignDetails,CampaignStartDate,CampaignEndDate,Campaign_ID) VALUES({},{},{},{},{})".format(data['campaign_name'],data['campaign_details'],data['campaign_startDate'],data['campaign_endDate'],data['campaign_uniqueId'])
+		# print(data)
+		query_string = "INSERT TO CampaingTracker(CampaignName,CampaignDetails,CampaignStartDate,CampaignEndDate,Campaign_ID) VALUES({},{},{},{},{})".format(data['campaign_name'],data['campaign_details'],data['campaign_start'],data['campaign_end'],data['campaign_uniqueId'])
 		# Logic to store the data in the database
 		try:
+
 			db = pyodbc.connect(connection_string)
 			db.cursor().execute(query_string)
 			resp_dict = { 'success': 'true' }			
@@ -25,6 +27,8 @@ def home():
 	elif request.method == 'GET':
 		# return render_template('index.html')
 		return app.send_static_file('index.html')
+
+
 
 
 if __name__ == '__main__':

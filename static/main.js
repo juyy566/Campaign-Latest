@@ -13,9 +13,10 @@ function getOrEmptyFormData (parent_ele_id, value) {
 		let formData = {};
 		fields.forEach(function (ele, id) {
 			formData[parent_ele_id + ele] = $("#"+parent_ele_id + ele).val();
-			console.log($("#"+parent_ele_id + ele).val());
+			// console.log($("#"+parent_ele_id + ele).val());
 		});
-		console.log(formData);
+		// console.log(formData);
+		// console.log(typeof(formData.campaign_start));
 		submitForm(formData);		
 	}
 	else if (value === '') {
