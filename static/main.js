@@ -2,15 +2,16 @@
 
 $(document).ready(function () {
 
-let fields = [ "name", "details", "start", "end", "uniqueId" ]
+var fields = [ "name", "details", "start", "end", "uniqueId" ]
 
 
 $("#campaign_uniqueId").val(ID());
+$("#campaign_uniqueId").toggle();
 
 function getOrEmptyFormData (parent_ele_id, value) {
 
 	if (value === undefined) {
-		let formData = {};
+		var formData = {};
 		fields.forEach(function (ele, id) {
 			formData[parent_ele_id + ele] = $("#"+parent_ele_id + ele).val();
 			// console.log($("#"+parent_ele_id + ele).val());
@@ -38,16 +39,20 @@ function getOrEmptyFormData (parent_ele_id, value) {
 function submitForm (formData) {
 	if (formData !== undefined) {
 		if (validateData()){
+			var progressbar = $("#progress-bar");
+			progressbar.progressbar({"value": false});
 			$.post('/', formData)
 				.done(function (data) {
-					getOrEmptyFormData("campaign_", '');
+					// getOrEmptyFormData("campaign_", '');
+					// console.log(data);
+					progressbar.progressbar("destroy");
 					alert('The form submission was successful');
-					setTimeout(function () {
-						location.reload();
-					}, 3000);					
+					$("#campaign_uniqueId").toggle();
+					$("#campaign_uniqueId").val(data.uniqueId);
 				})
 				.fail(function (data) {
 					// console.log("Done", data);
+					progressbar.progressbar("destroy");
 					alert('Sorry, the submission failed. Please contact the site admin');
 					setTimeout(function () {
 						location.reload();
@@ -66,8 +71,8 @@ function ID () {
 };
 
 function validateData () {
-	let common_id = "#campaign_";
-	let is_valid = true;
+	var common_id = "#campaign_";
+	var is_valid = true;
 
 	fields.forEach(function (ele, id) {
 		// removeP(common_id+ele);
@@ -84,11 +89,11 @@ function validateData () {
 }
 
 function validateDate () {
-	const start_date = new Date($("#campaign_start").val());
-	const end_date = new Date($("#campaign_end").val());
-	const today = new Date();
-
-	if (today.toDateString() <= start_date.toDateString()) {
+	var start_date = new Date($("#campaign_start").val());
+	var end_date = new Date($("#campaign_end").val());
+	var today = new Date();
+	console.log(today.toDateString(), start_date.toDateString(), today < start_date);
+	if (today < start_date) {
 		alert("Campaign's start date can't be today or in the future!");
 		return false;
 	}
@@ -103,7 +108,13 @@ function validateDate () {
 	$("form[name='campaign_form']").submit(function (e) {
 		e.preventDefault();
 		getOrEmptyFormData("campaign_");
+		$("#campaign_uniqueId").val(ID());
 	});
 
+	$("#campaign_empty").click(function () {
+		getOrEmptyFormData("campaign_", '');
+		$("#campaign_uniqueId").val(ID());
+		$("#campaign_uniqueId").toggle();
+	});
 
 });

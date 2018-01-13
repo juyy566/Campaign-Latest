@@ -40,6 +40,14 @@ textarea {
 	padding: 10px;
 }
 
+#campaign_empty {
+	background-color: #00AD6B;
+	color: #fff;
+	border: 0px;
+	width: 100%;
+	padding: 10px;
+}
+
 #campaign_dates_start, #campaign_dates_end {
 	width: 45%;
 }
@@ -57,3 +65,18 @@ textarea {
 	float: right;
 }
 
+#campaign_uniqueId {
+	width: 100%;
+}
+
+.inline-buttons div {
+	display: inline-block;
+}
+
+#campaign_btn_submit {
+	width: 49.5%;
+}
+
+#campaign_btn_empty {
+	width: 49.5%;
+}

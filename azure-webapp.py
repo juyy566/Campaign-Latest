@@ -15,7 +15,7 @@ def home():
 		resp_dict = {}
 		try:
 			query_string = "INSERT INTO CampaingTracker ( CAMPAIGNNAME, CAMPAIGNDETAILS, CAMPAIGNSTARTDATE, CAMPAIGNENDDATE, CAMPAIGN_ID ) VALUES('{}','{}','{}','{}','{}')".format(data['campaign_name'],data['campaign_details'],data['campaign_start'],data['campaign_end'],data['campaign_uniqueId'])
-			print(query_string)
+			# print(query_string)
 		except Exception as e:
 			resp_dict = { 'error': 'Wrong params', 'statusCode': '400' }
 			return jsonify(resp_dict)
@@ -25,7 +25,7 @@ def home():
 			db = pyodbc.connect(connection_string)
 			db.cursor().execute(query_string)
 			db.commit()
-			resp_dict = { 'success': 'true', 'statusCode': '200' }			
+			resp_dict = { 'success': 'true', 'statusCode': '200', 'uniqueId': data['campaign_uniqueId']}			
 		except Exception as e:
 			resp_dict = { 'error': str(e), 'statusCode': '400' }
 
