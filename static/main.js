@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 var fields = [ "name", "details", "start", "end", "uniqueId" ]
 
-
+var is_submitting = false;
 $("#campaign_uniqueId").val(ID());
 $("#campaign_uniqueId").toggle();
 
@@ -45,6 +45,7 @@ function submitForm (formData) {
 				.done(function (data) {
 					// getOrEmptyFormData("campaign_", '');
 					// console.log(data);
+					is_submitting = false;
 					progressbar.progressbar("destroy");
 					alert('The form submission was successful');
 					$("#campaign_uniqueId").toggle();
@@ -52,6 +53,7 @@ function submitForm (formData) {
 				})
 				.fail(function (data) {
 					// console.log("Done", data);
+					is_submitting = false;
 					progressbar.progressbar("destroy");
 					alert('Sorry, the submission failed. Please contact the site admin');
 					setTimeout(function () {
@@ -107,8 +109,14 @@ function validateDate () {
 
 	$("form[name='campaign_form']").submit(function (e) {
 		e.preventDefault();
-		getOrEmptyFormData("campaign_");
-		$("#campaign_uniqueId").val(ID());
+		if(!is_submitting){
+			is_submitting = true;
+			getOrEmptyFormData("campaign_");
+			$("#campaign_uniqueId").val(ID());
+		}
+		else {
+			alert('The form is already submitting');
+		}
 	});
 
 	$("#campaign_empty").click(function () {
