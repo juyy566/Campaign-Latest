@@ -12,7 +12,7 @@ def home():
 		# print(request)
 		data = request.form
 		# print(data)
-		query_string = "INSERT TO CampaingTracker(CampaignName,CampaignDetails,CampaignStartDate,CampaignEndDate,Campaign_ID) VALUES({},{},{},{},{})".format(data['campaign_name'],data['campaign_details'],data['campaign_start'],data['campaign_end'],data['campaign_uniqueId'])
+		query_string = "INSERT INTO CampaingTracker VALUES ({},{},{},{},{})".format(data['campaign_name'],data['campaign_details'],data['campaign_start'],data['campaign_end'],data['campaign_uniqueId'])
 		# Logic to store the data in the database
 		try:
 
