@@ -84,7 +84,6 @@ $(document).ready(function() {
     var start_date = new Date($("#campaign_start").val());
     var end_date = new Date($("#campaign_end").val());
     var today = new Date();
-    console.log(today, start_date, today < start_date);
     if (today < start_date) {
       alert("Campaign's start date can't be today or in the future!");
       return false;
