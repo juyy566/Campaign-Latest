@@ -109,6 +109,5 @@ $(document).ready(function() {
 
   $("#campaign_empty").click(function() {
     getOrEmptyFormData("campaign_", "");
-    is_submitting = true;
   });
 });
