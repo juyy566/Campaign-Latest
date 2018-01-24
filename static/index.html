@@ -19,8 +19,9 @@
 				</div>
 				<div id="azure-webapp-form">
 					<form name="campaign_form">					
-						<div class="form-group">
+						<div class="form-group" id="searchInput">
 						  <input type="text" class="form-control" name="campaign_name" id="campaign_name" placeholder="Campaign Name" required>
+						  <span id="help-text">This Campaign name is not unqiue. Please enter a unique Campaign Name. </span>
 						</div>
 						<div class="form-group">
 						  <textarea class="form-control" name="campaign_details" id="campaign_details" maxlength="1000" placeholder="Campaign Details.." required></textarea>
