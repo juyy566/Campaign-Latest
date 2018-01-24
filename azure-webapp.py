@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, jsonify
-import pymssql
-
-db = pymssql.connect(host='sqldbplatingnum.database.windows.net', port=1433, user="platingnum@sqldbplatingnum", passwd="D0wnl0ad!", db="cozydb")
+import pymysql
+server='sqldbplatingnum.database.windows.net'
+port=1433
+user="platingnum@sqldbplatingnum"
+password="D0wnl0ad!"
+db = pymysql.connect(server, user, password, db="cozydb")
 # connection_string = "Driver={ODBC Driver 13 for SQL Server};Server=tcp:sqldbplatingnum.database.windows.net,1433;Database=cozydb;Uid=platingnum@sqldbplatingnum;Pwd={D0wnl0ad!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
 app = Flask(__name__)
 
