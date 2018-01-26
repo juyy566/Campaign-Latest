@@ -1,56 +1,23 @@
 $(document).ready(function() {
-  var searchData = [
-    {
-      _id: "5a68c772506c003f9a3ae607",
-      age: 21,
-      company: "GORGANIC",
-      phone: "+1 (864) 485-3625",
-      address: "332 Engert Avenue, Cutter, Virginia, 218",
-      about: "Cillum mollit nostrud irure veniam. Aliqua eiusmod officia ut nulla qui aliquip eu proident enim adipisicing ut laboris aliquip. Culpa est aliqua velit eu enim magna pariatur quis do elit culpa cupidatat. Voluptate sint nulla veniam esse incididunt veniam nisi amet exercitation eiusmod minim sunt laborum magna."
-    },
-    {
-      _id: "5a68c772bfbde82458d2adc4",
-      age: 32,
-      company: "COMVEYOR",
-      phone: "+1 (833) 445-2684",
-      address: "702 Clara Street, Masthope, Illinois, 7357",
-      about: "Duis enim eu anim mollit irure sit fugiat aliquip voluptate labore. Aliqua nisi pariatur dolore esse laboris. Deserunt ex voluptate irure labore incididunt consectetur amet et nisi ad irure proident incididunt. Nisi incididunt minim reprehenderit veniam non incididunt mollit. Ea et cupidatat enim in et laboris consequat adipisicing anim. Elit minim deserunt officia ad minim anim est dolor in amet et."
-    },
-    {
-      _id: "5a68c7728094777dc27be238",
-      age: 36,
-      company: "INDEXIA",
-      phone: "+1 (917) 489-2144",
-      address: "108 Dewitt Avenue, Singer, Arizona, 6928",
-      about: "Ex irure sunt veniam irure mollit exercitation enim officia nisi nisi eu eiusmod amet. Cupidatat commodo non laboris consequat proident dolore officia consectetur eiusmod. Eiusmod incididunt eu sunt eu deserunt culpa sint consectetur aliquip eu. Occaecat aute sit consectetur minim et cillum adipisicing pariatur amet qui ipsum. Ad reprehenderit eiusmod cillum ullamco. Minim incididunt duis consectetur sunt voluptate nulla. Duis exercitation sit aliquip nostrud fugiat cillum."
-    },
-    {
-      _id: "5a68c7736eb4c41a1f5012a8",
-      age: 32,
-      company: "ZORK",
-      phone: "+1 (912) 495-2293",
-      address: "207 Highland Boulevard, Camas, New York, 8764",
-      about: "Exercitation elit in minim fugiat sint mollit anim aliquip minim. Ea adipisicing non pariatur eu aliquip anim ad cillum nulla sint magna non Lorem. Consequat consectetur consectetur incididunt minim excepteur adipisicing nulla cillum. Nostrud adipisicing cupidatat enim tempor exercitation ut fugiat nostrud laborum. Duis sint labore ex id consectetur laborum occaecat qui dolor. Lorem nisi cupidatat sunt aliqua veniam voluptate veniam laboris duis ullamco nostrud amet."
-    },
-    {
-      _id: "5a68c773053677cdc584fe98",
-      age: 28,
-      company: "COREPAN",
-      phone: "+1 (844) 534-2385",
-      address: "507 Lyme Avenue, Hayden, Kansas, 272",
-      about: "In aliqua id quis magna ipsum laboris. Quis occaecat sunt ullamco magna non dolore tempor. Cupidatat duis laborum fugiat voluptate. Et incididunt dolore officia commodo duis voluptate laborum et est minim duis velit quis. Sit nostrud aliqua occaecat tempor elit laboris sunt aliqua nulla mollit aute tempor anim."
-    },
-    {
-      _id: "5a68c773b4fdc19a7a7eb1ce",
-      age: 36,
-      company: "RECRISYS",
-      phone: "+1 (833) 482-2158",
-      address: "436 Canda Avenue, Goodville, Hawaii, 4613",
-      about: "Ea anim adipisicing sint sunt fugiat non veniam adipisicing velit aliqua ex mollit occaecat. Pariatur sint quis amet ad et. In veniam exercitation aute deserunt anim. Ut est sit eiusmod deserunt nostrud do fugiat laboris."
-    }
-  ];
 
-  // data
+  var searchData = [];
+  $.get("/data")
+    .done(function(data) {
+      if(data.status === '200'){
+
+        searchData = data;
+        $("#campaign_name").autocomplete({
+          source: convertLabels(searchData)
+        });
+        console.log(convertLabels(searchData));
+      }
+      else {
+        alert("Please try again! Couldn't connect to the server.");
+      }
+    })
+    .fail(function(err) {
+      alert("Please check your internet connection or contact the site admin.");
+    });
 
   var fields = ["name", "details", "start", "end", "uniqueId"];
 
@@ -115,11 +82,11 @@ $(document).ready(function() {
   $("#campaign_name").focusout(function() {
     var inputVal = $(this).val();
     var result = searchData.filter(function(ele) {
-      console.log(ele.company);
-      return ele.company.toLowerCase() === inputVal.toLowerCase();
+      return ele.campaignname.toLowerCase() === inputVal.toLowerCase();
     });
-    if(result.length === 1){
+    if(result.length >= 1){
       can_submit = false;
+      $("#campaign_submit").prop('disabled', true);
       $("#help-text").show();
       $("#searchInput")
         .addClass("has-error")
@@ -127,12 +94,15 @@ $(document).ready(function() {
     }
     else {
       can_submit = true;
+      $("#campaign_submit").prop("disabled", false);
       $("#help-text").hide();
       $("#searchInput")
         .addClass("has-success")
         .removeClass("has-error");
     }
   });
+
+
 
   function ID() {
     Math.seedrandom();
@@ -188,12 +158,10 @@ $(document).ready(function() {
     getOrEmptyFormData("campaign_", "");
   });
 
-  $.get('/data')
-    .done(function(data){
-      searchData = data.data;
-      console.log(searchData);
-    })
-    .fail(function(err){
-      alert("Please check your internet connection or contact the site admin.");
+  function convertLabels(searchData) {
+    return searchData.map(function(ele){
+      return ele.campaignname;
     });
+  }
+
 });
