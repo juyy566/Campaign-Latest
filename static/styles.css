@@ -40,6 +40,13 @@ textarea {
 	padding: 10px;
 }
 
+#campaign_submit:disabled,
+#campaign_submit[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
 #campaign_empty {
 	background-color: #00AD6B;
 	color: #fff;

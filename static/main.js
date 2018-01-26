@@ -1,22 +1,19 @@
 $(document).ready(function() {
 
   var searchData = [];
+  $("#campaign_submit").prop("disabled", true);
   $.get("/data")
     .done(function(data) {
-      console.log(data);
-
-        searchData = data;
-        $("#campaign_name").autocomplete({
-          source: convertLabels(searchData)
-        });
-        console.log(convertLabels(searchData));
+      searchData = data;
+      $("#campaign_name").autocomplete({
+        source: convertLabels(searchData)
+      });
     })
     .fail(function(err) {
       alert("Please check your internet connection or contact the site admin.");
     });
 
   var fields = ["name", "details", "start", "end", "uniqueId"];
-
   var is_submitting = false;
   var can_submit = true;
   $("#campaign_uniqueDiv").hide();
@@ -47,6 +44,7 @@ $(document).ready(function() {
   function submitForm(formData) {
     if (formData !== undefined) {
       if (validateData() && can_submit) {
+        $("#campaign_submit").prop("disabled", false);
         $("#campaign_uniqueDiv").hide();
         var progressbar = $("#progress-bar");
         progressbar.progressbar({ value: false });
@@ -82,7 +80,7 @@ $(document).ready(function() {
     });
     if(result.length >= 1){
       can_submit = false;
-      $("#campaign_submit").prop('disabled', true);
+
       $("#help-text").show();
       $("#searchInput")
         .addClass("has-error")
@@ -90,7 +88,7 @@ $(document).ready(function() {
     }
     else {
       can_submit = true;
-      $("#campaign_submit").prop("disabled", false);
+      
       $("#help-text").hide();
       $("#searchInput")
         .addClass("has-success")
