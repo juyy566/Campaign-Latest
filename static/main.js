@@ -3,17 +3,13 @@ $(document).ready(function() {
   var searchData = [];
   $.get("/data")
     .done(function(data) {
-      if(data.status === '200'){
+      console.log(data);
 
         searchData = data;
         $("#campaign_name").autocomplete({
           source: convertLabels(searchData)
         });
         console.log(convertLabels(searchData));
-      }
-      else {
-        alert("Please try again! Couldn't connect to the server.");
-      }
     })
     .fail(function(err) {
       alert("Please check your internet connection or contact the site admin.");
