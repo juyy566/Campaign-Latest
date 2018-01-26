@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   var searchData = [];
-  $("#campaign_submit").prop("disabled", true);
+  
   $.get("/data")
     .done(function(data) {
       searchData = data;
@@ -44,7 +44,6 @@ $(document).ready(function() {
   function submitForm(formData) {
     if (formData !== undefined) {
       if (validateData() && can_submit) {
-        $("#campaign_submit").prop("disabled", false);
         $("#campaign_uniqueDiv").hide();
         var progressbar = $("#progress-bar");
         progressbar.progressbar({ value: false });
@@ -75,12 +74,21 @@ $(document).ready(function() {
 
   $("#campaign_name").focusout(function() {
     var inputVal = $(this).val();
-    var result = searchData.filter(function(ele) {
+    var result = [];
+    if(!searchData) {
+      alert("Couldn't load data. Please check your internet connection");
+      can_submit = false;
+      return;
+    }
+
+    result = searchData.filter(function(ele) {
       return ele.campaignname.toLowerCase() === inputVal.toLowerCase();
     });
+
+
     if(result.length >= 1){
       can_submit = false;
-
+      $("#campaign_submit").prop("disabled", true);
       $("#help-text").show();
       $("#searchInput")
         .addClass("has-error")
@@ -88,7 +96,7 @@ $(document).ready(function() {
     }
     else {
       can_submit = true;
-      
+      $("#campaign_submit").prop("disabled", false);
       $("#help-text").hide();
       $("#searchInput")
         .addClass("has-success")
